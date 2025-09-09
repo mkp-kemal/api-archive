@@ -28,4 +28,4 @@ COPY --from=builder /usr/src/app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 5000
 
-CMD ["node", "dist/src/main.js"]
+CMD ["bun", "--require", "tsconfig-paths/register", "dist/src/main.js"]
