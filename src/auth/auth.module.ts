@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { RefreshTokenStrategy } from './strategies/refresh.strategy';
 import { AuthResolver } from './auth.resolver';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthResolver } from './auth.resolver';
       inject: [ConfigService],
     }),
     PrismaModule,
+    MailModule
   ],
   providers: [
     AuthService,
