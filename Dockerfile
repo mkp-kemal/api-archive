@@ -17,15 +17,16 @@ RUN bun run build
 FROM oven/bun:1 AS production
 WORKDIR /usr/src/app
 
-# Copy deps (gunakan --production untuk lebih ringan)
+# Copy package files & install deps production
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile
+RUN bun install --production --frozen-lockfile
 
-# Copy built files
+# Copy build & prisma
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/prisma ./prisma
-COPY --from=builder /usr/src/app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /usr/src/app/node_modules ./node_modules
 
 EXPOSE 5000
 
-CMD ["bun", "--require", "tsconfig-paths/register", "dist/src/main.js"]
+# Jalankan main JS hasil build
+CMD ["bun", "dist/src/main.js"]
