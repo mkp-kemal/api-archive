@@ -18,10 +18,10 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Review API')
-    .setDescription('API untuk user auth dan review')
+    .setTitle('Archive API')
+    .setDescription('API documentation')
     .setVersion('1.0')
-    .addBearerAuth() // Untuk JWT bearer auth
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
