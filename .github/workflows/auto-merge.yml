@@ -1,4 +1,4 @@
-name: Auto Merge Dev to Main
+name: Auto Fast-Forward Dev -> Main
 
 on:
   push:
@@ -6,21 +6,23 @@ on:
       - dev
 
 jobs:
-  merge:
+  ff-merge:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout main
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # get all history, can be reset
 
-      - name: Configure Git
+      - name: Setup Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Merge dev -> main
+      - name: Fast-forward main to dev
         run: |
+          git fetch origin
           git checkout main
-          git merge dev --no-ff -m "Auto-merge dev into main"
-          git push origin main
+          git reset --hard origin/dev
+          git push origin main --force
