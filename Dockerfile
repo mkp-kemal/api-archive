@@ -1,24 +1,20 @@
 # Stage 1: Build NestJS
-FROM node:20-alpine AS builder
+FROM node:18-alpine AS builder
 WORKDIR /usr/src/app
 
-# Copy package file & install deps
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
 
-# Copy source code
 COPY . .
-
-# Generate Prisma client & build app
 RUN npx prisma generate
 RUN yarn build
 
 # Stage 2: Production
-FROM node:20-alpine AS production
+FROM node:18-alpine AS production
 WORKDIR /usr/src/app
 
-# Copy dependencies (production only)
 COPY package.json yarn.lock ./
+# RUN yarn install
 RUN yarn install --frozen-lockfile --production
 
 # Copy built files
