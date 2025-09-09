@@ -1,25 +1,31 @@
 # Stage 1: Build NestJS
-FROM node:18-alpine AS builder
+FROM oven/bun:1 AS builder
 WORKDIR /usr/src/app
 
-COPY package.json bun.lock ./
+# Copy package file & bun lock
+COPY package.json bun.lockb ./
 RUN bun install --frozen-lockfile
 
+# Copy source code
 COPY . .
-RUN npx prisma generate
-RUN bun build
+
+# Generate prisma client & build app
+RUN bunx prisma generate
+RUN bun run build
 
 # Stage 2: Production
-FROM node:18-alpine AS production
+FROM oven/bun:1 AS production
 WORKDIR /usr/src/app
 
-COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile --production --ignore-scripts
+# Copy deps (gunakan --production untuk lebih ringan)
+COPY package.json bun.lockb ./
+RUN bun install --frozen-lockfile --production
 
 # Copy built files
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/prisma ./prisma
+COPY --from=builder /usr/src/app/node_modules/.prisma ./node_modules/.prisma
 
 EXPOSE 5000
 
-CMD ["node", "dist/src/main.js"]
+CMD ["bun", "dist/src/main.js"]
