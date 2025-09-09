@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: nest
+      POSTGRES_PASSWORD: projek_nest_bang
+      POSTGRES_DB: db_archive
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgresql://nest:projek_nest_bang@207.90.194.108:5432/db_archive"
+      NODE_ENV: production
+    ports:
+      - "5000:5000"
+    command: bun run start:dev # dev mode (hot reload)
+
+volumes:
+  postgres_data:

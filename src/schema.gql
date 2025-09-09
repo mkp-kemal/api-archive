@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LoginDto {
+  email: String!
+  password: String!
+}
+
+type LoginModel {
+  accessToken: String!
+  message: String!
+  refreshToken: String!
+}
+
+type Mutation {
+  login(data: LoginDto!): LoginModel!
+  refreshToken(token: String!): RefreshTokenModel!
+  register(data: RegisterDto!): RegisterModel!
+}
+
+type Query {
+  user(id: ID!): UsersResponse!
+  users: UsersResponse!
+}
+
+type RefreshTokenModel {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input RegisterDto {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type RegisterModel {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  isBanned: Boolean!
+  isVerified: Boolean!
+  name: String!
+  role: String!
+  updatedAt: DateTime!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: ID!
+  isBanned: Boolean!
+  isVerified: Boolean!
+  name: String!
+  password: String!
+  role: String!
+  updatedAt: DateTime!
+}
+
+type UsersResponse {
+  data: [User!]!
+  fromCache: Boolean!
+}
