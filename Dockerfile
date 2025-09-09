@@ -19,7 +19,7 @@ WORKDIR /usr/src/app
 
 # Copy deps (gunakan --production untuk lebih ringan)
 COPY package.json bun.lock ./
-RUN bun install --frozen-lockfile --production
+RUN bun install --frozen-lockfile
 
 # Copy built files
 COPY --from=builder /usr/src/app/dist ./dist
