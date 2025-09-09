@@ -28,9 +28,9 @@ import { MailModule } from 'src/mail/mail.module';
     AuthService,
     JwtStrategy,
     RefreshTokenStrategy,
-    AuthResolver, // ⬅️ daftar resolver GraphQL
+    AuthResolver,
   ],
-  controllers: [], // masih ada REST controller
+  controllers: [],
   exports: [AuthService],
 })
 export class AuthModule {}
