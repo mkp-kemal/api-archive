@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
-    "@apollo/server": "^5.0.0",
+    "@apollo/server": "^4",
     "@nestjs-modules/ioredis": "^2.0.2",
     "@nestjs/apollo": "^13.1.0",
     "@nestjs/common": "^11.0.1",
@@ -33,6 +33,7 @@
     "@nestjs/swagger": "^11.2.0",
     "@prisma/client": "^6.15.0",
     "@sendgrid/mail": "^8.1.5",
+    "apollo-server-express": "3",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
