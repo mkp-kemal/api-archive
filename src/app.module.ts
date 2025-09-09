@@ -18,6 +18,7 @@ import { MailModule } from './mail/mail.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // schema GraphQL auto generate
       sortSchema: true,
     }),
+    
     AuthModule,
     UsersModule,
     PrismaModule,
