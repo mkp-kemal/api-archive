@@ -1,25 +1,25 @@
-# ---- Base ----
-FROM oven/bun:1 AS base
-WORKDIR /app
+# Stage 1: Build NestJS
+FROM node:18-alpine AS builder
+WORKDIR /usr/src/app
 
-# ---- Dependencies ----
-FROM base AS deps
-COPY package.json bun.lockb* ./
-RUN bun install --frozen-lockfile
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile
 
-# ---- Build ----
-FROM base AS build
-COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN bun run build
+RUN npx prisma generate
+RUN yarn build
 
-# ---- Production ----
-FROM base AS prod
-COPY --from=build /app/dist ./dist
-COPY --from=deps /app/node_modules ./node_modules
-COPY prisma ./prisma
+# Stage 2: Production
+FROM node:18-alpine AS production
+WORKDIR /usr/src/app
 
-# Prisma Client must be generated at runtime
-RUN bunx prisma generate
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --production --ignore-scripts
 
-CMD ["bun", "run", "start:prod"]
+# Copy built files
+COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /usr/src/app/prisma ./prisma
+
+EXPOSE 5000
+
+CMD ["node", "dist/src/main.js"]
