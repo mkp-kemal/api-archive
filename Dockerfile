@@ -3,7 +3,7 @@ FROM oven/bun:1 AS builder
 WORKDIR /usr/src/app
 
 # Copy package file & bun lock
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile
 
 # Copy source code
@@ -18,7 +18,7 @@ FROM oven/bun:1 AS production
 WORKDIR /usr/src/app
 
 # Copy deps (gunakan --production untuk lebih ringan)
-COPY package.json bun.lockb ./
+COPY package.json bun.lock ./
 RUN bun install --frozen-lockfile --production
 
 # Copy built files
