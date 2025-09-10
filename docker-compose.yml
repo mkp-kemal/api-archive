@@ -39,8 +39,8 @@ services:
         condition: service_healthy
       redis:
         condition: service_started
-    # ports:
-    #   - "5000:5000"
+    ports:
+      - "5000:5000"
     env_file:
       - .env
     networks:
@@ -48,22 +48,6 @@ services:
     volumes:
       - .:/usr/src/app
     command: sh -c "yarn install && yarn start:dev"
-
-  nginx:
-    image: nginx:alpine
-    container_name: archive_nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/nginx/ssl  # optional, untuk SSL certs nanti
-      - ./nginx/logs:/var/log/nginx
-    depends_on:
-      - app
-    networks:
-      - app_network
 
 networks:
   app_network:
